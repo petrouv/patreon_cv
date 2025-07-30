@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>{{ post.title }}</title>
+
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --text-color: #2c3e50;
+            --text-light: #7f8c8d;
+            --background: #f5f6fa;
+            --surface: #f8f9fa;
+            --border: #e9ecef;
+            --link-color: #3498db;
+            --link-hover: #2980b9;
+            --shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            --radius: 8px;
+            --spacing: 1rem;
+        }
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --primary-color: #ecf0f1;
+                --text-color: #ecf0f1;
+                --text-light: #bdc3c7;
+                --background: #2c3e50;
+                --surface: #34495e;
+                --border: #4a5568;
+                --link-color: #74b9ff;
+                --link-hover: #0984e3;
+                --shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            }
+            .container, .post-header {
+                background-color: #34495e;
+            }
+        }
+        * { box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background);
+            margin: 0;
+            padding: var(--spacing);
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+        .post-header {
+            background-color: #ffffff;
+            border-bottom: 1px solid var(--border);
+            padding: 1.5rem 2rem;
+        }
+        .post-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin: 0 0 1rem 0;
+            line-height: 1.3;
+            color: var(--text-color);
+        }
+        .post-meta {
+            display: flex;
+            justify-content: flex-start;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        .meta-item::before {
+            content: '•';
+            color: var(--text-light);
+            font-weight: bold;
+        }
+        .meta-item:first-child::before {
+            content: '';
+        }
+        .post-link {
+            color: var(--link-color);
+            text-decoration: none;
+            font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
+            font-size: 0.8rem;
+            word-break: break-all;
+            transition: color 0.2s;
+        }
+        .post-link:hover {
+            color: var(--link-hover);
+            text-decoration: underline;
+        }
+        .post-content { padding: 2rem; }
+        .post-content p {
+            margin: 0 0 1.5rem 0;
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+        .post-content p:last-child { margin-bottom: 0; }
+        .post-content a {
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .post-content a:hover {
+            color: var(--link-hover);
+            text-decoration: underline;
+        }
+        .image-container {
+            text-align: center;
+            margin: 2rem 0;
+        }
+        .image-container a {
+            text-decoration: none;
+            border: none;
+            outline: none;
+        }
+        .post-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            transition: transform 0.2s;
+            cursor: pointer;
+        }
+        .post-content img:hover { transform: scale(1.02); }
+        .post-footer {
+            background-color: var(--border);
+            padding: 1.5rem 2rem;
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-light);
+            border-top: 1px solid var(--border);
+        }
+        @media (max-width: 768px) {
+            body { padding: 0.5rem; }
+            .post-header { padding: 1rem 1.5rem; }
+            .post-title { font-size: 1.4rem; }
+            .post-meta {
+                flex-direction: column;
+                gap: 0.3rem;
+                align-items: flex-start;
+            }
+            .post-content { padding: 1.5rem; }
+            .post-footer { padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <article class="container">
+        <header class="post-header">
+            <h1 class="post-title">{{ post.title }}</h1>
+            <div class="post-meta">
+                <div class="meta-item">
+                    <time datetime="{{ post.published_at }}">
+                        Published: {{ post.published_at_human }}
+                    </time>
+                </div>
+                {% if post.edited_at_human %}
+                <div class="meta-item">
+                    <time datetime="{{ post.edited_at }}">
+                        Edited: {{ post.edited_at_human }}
+                    </time>
+                </div>
+                {% endif %}
+                <div class="meta-item">
+                    <a href="{{ post.author.url }}" class="post-link" target="_blank" rel="noopener">
+                        <span>{{ post.author.name }}</span>
+                    </a>
+                </div>
+                <div class="meta-item">
+                    <a href="{{ post.url }}" class="post-link" target="_blank" rel="noopener">
+                        {{ post.url }}
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <main class="post-content">
+            {{ post.content | safe }}
+        </main>
+
+        <footer class="post-footer">
+            <p>
+                Archived copy of post from Patreon platform.
+                Saved: {{ post.saved_at }}
+            </p>
+        </footer>
+    </article>
+</body>
+</html>
